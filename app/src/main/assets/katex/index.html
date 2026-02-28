@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="katex.min.css">
+<script src="katex.min.js"></script>
+<style>
+body { margin:0; padding:16px; font-family:sans-serif; }
+#formula { text-align:center; overflow-x:auto; }
+</style>
+</head>
+<body>
+<div id="formula"></div>
+<script>
+function render(latex, displayMode) {
+  try {
+    katex.render(latex, document.getElementById('formula'), {
+      displayMode: displayMode !== false,
+      throwOnError: false,
+      trust: true
+    });
+  } catch(e) {
+    document.getElementById('formula').textContent = latex;
+  }
+}
+</script>
+</body>
+</html>

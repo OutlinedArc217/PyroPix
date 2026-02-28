@@ -1,0 +1,75 @@
+[versions]
+agp = "8.7.3"
+kotlin = "2.1.0"
+ksp = "2.1.0-1.0.29"
+compose-bom = "2024.12.01"
+hilt = "2.53.1"
+hilt-nav = "1.2.0"
+room = "2.6.1"
+datastore = "1.1.1"
+camerax = "1.4.1"
+coil = "2.7.0"
+onnx = "1.19.0"
+symja = "3.0.0"
+pdfbox = "2.0.27.0"
+poi = "5.2.5"
+commonmark = "0.22.0"
+nav = "2.8.5"
+coroutines = "1.9.0"
+serialization = "1.7.3"
+lifecycle = "2.8.7"
+icons-extended = "1.7.6"
+
+[libraries]
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+compose-ui = { group = "androidx.compose.ui", name = "ui" }
+compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+compose-ui-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+compose-icons = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "icons-extended" }
+compose-activity = { group = "androidx.activity", name = "activity-compose", version = "1.9.3" }
+
+nav-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "nav" }
+
+lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycle" }
+lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+hilt-nav = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-nav" }
+
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+
+datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
+
+camerax-core = { group = "androidx.camera", name = "camera-core", version.ref = "camerax" }
+camerax-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "camerax" }
+camerax-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "camerax" }
+camerax-view = { group = "androidx.camera", name = "camera-view", version.ref = "camerax" }
+
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+
+onnx-runtime = { group = "com.microsoft.onnxruntime", name = "onnxruntime-android", version.ref = "onnx" }
+
+symja = { group = "org.matheclipse", name = "matheclipse-core", version.ref = "symja" }
+
+pdfbox = { group = "com.tom-roush", name = "pdfbox-android", version.ref = "pdfbox" }
+poi-ooxml = { group = "org.apache.poi", name = "poi-ooxml", version.ref = "poi" }
+commonmark = { group = "org.commonmark", name = "commonmark", version.ref = "commonmark" }
+
+coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
+
+core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.15.0" }
+webkit = { group = "androidx.webkit", name = "webkit", version = "1.12.1" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

@@ -1,0 +1,164 @@
+{
+  "app": {
+    "name": "PyroPix"
+  },
+  "nav": {
+    "recognize": "识别",
+    "doc": "文档",
+    "solver": "求解",
+    "mine": "我的"
+  },
+  "recognize": {
+    "title": "公式识别",
+    "camera": "拍照识别",
+    "gallery": "图片上传",
+    "draw": "全屏绘制",
+    "liveDraw": "实时预览",
+    "textInput": "文本输入",
+    "recognizing": "识别中...",
+    "result": "识别结果",
+    "retry": "重试",
+    "save": "保存",
+    "crop": "裁剪",
+    "cropHint": "拖动框选公式区域"
+  },
+  "camera": {
+    "flash": "闪光灯",
+    "capture": "拍照",
+    "switchCamera": "切换摄像头"
+  },
+  "draw": {
+    "penThin": "细",
+    "penMedium": "中",
+    "penThick": "粗",
+    "eraser": "橡皮擦",
+    "undo": "撤销",
+    "redo": "重做",
+    "clear": "清空",
+    "recognize": "识别",
+    "lock": "锁定",
+    "unlock": "解锁"
+  },
+  "textInput": {
+    "placeholder": "输入 LaTeX 代码...",
+    "preview": "预览",
+    "symbols": "符号面板"
+  },
+  "doc": {
+    "title": "文档",
+    "open": "打开文档",
+    "empty": "暂无文档",
+    "extract": "提取公式",
+    "insert": "插入公式",
+    "edit": "编辑",
+    "findReplace": "查找替换",
+    "fontSize": "字体大小",
+    "preview": "预览"
+  },
+  "solver": {
+    "title": "公式求解",
+    "input": "输入公式",
+    "solve": "求解",
+    "simplify": "化简",
+    "expand": "展开",
+    "factor": "因式分解",
+    "equation": "解方程",
+    "derivative": "求导",
+    "integral": "积分",
+    "limit": "极限",
+    "matrix": "矩阵",
+    "sum": "级数",
+    "steps": "分步过程",
+    "graph": "函数图像",
+    "result": "求解结果",
+    "error": "求解失败",
+    "variable": "变量"
+  },
+  "mine": {
+    "title": "我的",
+    "history": "历史记录",
+    "favorites": "收藏夹",
+    "templates": "模板库",
+    "settings": "设置"
+  },
+  "history": {
+    "title": "历史记录",
+    "empty": "暂无记录",
+    "search": "搜索公式...",
+    "delete": "删除",
+    "deleteAll": "清空历史",
+    "confirmDelete": "确定删除？"
+  },
+  "fav": {
+    "title": "收藏夹",
+    "empty": "暂无收藏",
+    "addGroup": "新建分组",
+    "groupName": "分组名称",
+    "all": "全部"
+  },
+  "template": {
+    "title": "模板库",
+    "algebra": "基础代数",
+    "trig": "三角函数",
+    "expLog": "指数对数",
+    "calculus": "微积分",
+    "linearAlg": "线性代数",
+    "probability": "概率统计",
+    "physics": "物理常用",
+    "discrete": "离散数学"
+  },
+  "settings": {
+    "title": "设置",
+    "recognition": "识别设置",
+    "precision": "识别精度",
+    "precisionFast": "快速",
+    "precisionBalanced": "平衡",
+    "precisionAccurate": "精确",
+    "autoCrop": "自动裁剪",
+    "outputFormat": "输出格式",
+    "appearance": "外观设置",
+    "fontSize": "公式字体大小",
+    "cardLayout": "卡片布局",
+    "layoutList": "列表",
+    "layoutGrid": "网格",
+    "storage": "存储与数据",
+    "exportPath": "导出路径",
+    "backup": "备份",
+    "restore": "恢复",
+    "handwriting": "手写设置",
+    "penColor": "画笔颜色",
+    "penWidth": "画笔粗细",
+    "autoDelay": "自动识别延迟",
+    "palmReject": "掌纹防误触",
+    "advanced": "高级",
+    "modelInfo": "模型管理",
+    "threadCount": "推理线程数",
+    "gpuAccel": "GPU 加速",
+    "about": "关于"
+  },
+  "common": {
+    "ok": "确定",
+    "cancel": "取消",
+    "copy": "复制",
+    "copyLatex": "复制 LaTeX",
+    "copyImage": "复制图片",
+    "share": "分享",
+    "export": "导出",
+    "exportPng": "导出 PNG",
+    "exportSvg": "导出 SVG",
+    "delete": "删除",
+    "edit": "编辑",
+    "save": "保存",
+    "loading": "加载中...",
+    "success": "成功",
+    "error": "错误",
+    "confirm": "确认",
+    "source": {
+      "camera": "拍照",
+      "gallery": "图片",
+      "draw": "手写",
+      "text": "文本",
+      "doc": "文档"
+    }
+  }
+}

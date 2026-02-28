@@ -1,0 +1,101 @@
+{
+  "categories": [
+    {
+      "id": "algebra",
+      "name": "基础代数",
+      "formulas": [
+        {"name": "二次公式", "latex": "x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}"},
+        {"name": "完全平方", "latex": "(a+b)^2 = a^2 + 2ab + b^2"},
+        {"name": "立方和", "latex": "a^3 + b^3 = (a+b)(a^2 - ab + b^2)"},
+        {"name": "立方差", "latex": "a^3 - b^3 = (a-b)(a^2 + ab + b^2)"},
+        {"name": "二项式定理", "latex": "(a+b)^n = \\sum_{k=0}^{n} \\binom{n}{k} a^{n-k} b^k"},
+        {"name": "等差数列求和", "latex": "S_n = \\frac{n(a_1 + a_n)}{2}"},
+        {"name": "等比数列求和", "latex": "S_n = \\frac{a_1(1-r^n)}{1-r}"}
+      ]
+    },
+    {
+      "id": "trig",
+      "name": "三角函数",
+      "formulas": [
+        {"name": "勾股定理", "latex": "\\sin^2\\theta + \\cos^2\\theta = 1"},
+        {"name": "和角公式", "latex": "\\sin(\\alpha+\\beta) = \\sin\\alpha\\cos\\beta + \\cos\\alpha\\sin\\beta"},
+        {"name": "余弦和角", "latex": "\\cos(\\alpha+\\beta) = \\cos\\alpha\\cos\\beta - \\sin\\alpha\\sin\\beta"},
+        {"name": "二倍角正弦", "latex": "\\sin 2\\theta = 2\\sin\\theta\\cos\\theta"},
+        {"name": "二倍角余弦", "latex": "\\cos 2\\theta = \\cos^2\\theta - \\sin^2\\theta"},
+        {"name": "正弦定理", "latex": "\\frac{a}{\\sin A} = \\frac{b}{\\sin B} = \\frac{c}{\\sin C} = 2R"},
+        {"name": "余弦定理", "latex": "c^2 = a^2 + b^2 - 2ab\\cos C"}
+      ]
+    },
+    {
+      "id": "exp_log",
+      "name": "指数对数",
+      "formulas": [
+        {"name": "指数法则", "latex": "a^m \\cdot a^n = a^{m+n}"},
+        {"name": "对数换底", "latex": "\\log_a b = \\frac{\\ln b}{\\ln a}"},
+        {"name": "对数乘法", "latex": "\\log(ab) = \\log a + \\log b"},
+        {"name": "自然指数", "latex": "e = \\lim_{n \\to \\infty} \\left(1 + \\frac{1}{n}\\right)^n"},
+        {"name": "欧拉公式", "latex": "e^{i\\theta} = \\cos\\theta + i\\sin\\theta"}
+      ]
+    },
+    {
+      "id": "calculus",
+      "name": "微积分",
+      "formulas": [
+        {"name": "导数定义", "latex": "f'(x) = \\lim_{h \\to 0} \\frac{f(x+h) - f(x)}{h}"},
+        {"name": "幂函数导数", "latex": "\\frac{d}{dx} x^n = nx^{n-1}"},
+        {"name": "链式法则", "latex": "\\frac{d}{dx} f(g(x)) = f'(g(x)) \\cdot g'(x)"},
+        {"name": "牛顿-莱布尼茨", "latex": "\\int_a^b f(x)dx = F(b) - F(a)"},
+        {"name": "分部积分", "latex": "\\int u\\,dv = uv - \\int v\\,du"},
+        {"name": "泰勒展开", "latex": "f(x) = \\sum_{n=0}^{\\infty} \\frac{f^{(n)}(a)}{n!}(x-a)^n"},
+        {"name": "洛必达法则", "latex": "\\lim_{x \\to a} \\frac{f(x)}{g(x)} = \\lim_{x \\to a} \\frac{f'(x)}{g'(x)}"}
+      ]
+    },
+    {
+      "id": "linear_alg",
+      "name": "线性代数",
+      "formulas": [
+        {"name": "2阶行列式", "latex": "\\begin{vmatrix} a & b \\\\ c & d \\end{vmatrix} = ad - bc"},
+        {"name": "矩阵乘法", "latex": "(AB)_{ij} = \\sum_{k} A_{ik} B_{kj}"},
+        {"name": "逆矩阵", "latex": "A^{-1} = \\frac{1}{\\det(A)} \\text{adj}(A)"},
+        {"name": "特征方程", "latex": "\\det(A - \\lambda I) = 0"},
+        {"name": "克莱默法则", "latex": "x_i = \\frac{\\det(A_i)}{\\det(A)}"}
+      ]
+    },
+    {
+      "id": "probability",
+      "name": "概率统计",
+      "formulas": [
+        {"name": "贝叶斯公式", "latex": "P(A|B) = \\frac{P(B|A)P(A)}{P(B)}"},
+        {"name": "期望", "latex": "E(X) = \\sum_{i} x_i P(x_i)"},
+        {"name": "方差", "latex": "D(X) = E(X^2) - [E(X)]^2"},
+        {"name": "正态分布", "latex": "f(x) = \\frac{1}{\\sigma\\sqrt{2\\pi}} e^{-\\frac{(x-\\mu)^2}{2\\sigma^2}}"},
+        {"name": "二项分布", "latex": "P(X=k) = \\binom{n}{k} p^k (1-p)^{n-k}"},
+        {"name": "泊松分布", "latex": "P(X=k) = \\frac{\\lambda^k e^{-\\lambda}}{k!}"}
+      ]
+    },
+    {
+      "id": "physics",
+      "name": "物理常用",
+      "formulas": [
+        {"name": "牛顿第二定律", "latex": "F = ma"},
+        {"name": "万有引力", "latex": "F = G\\frac{m_1 m_2}{r^2}"},
+        {"name": "动能", "latex": "E_k = \\frac{1}{2}mv^2"},
+        {"name": "库仑定律", "latex": "F = k\\frac{q_1 q_2}{r^2}"},
+        {"name": "麦克斯韦方程", "latex": "\\nabla \\times \\vec{E} = -\\frac{\\partial \\vec{B}}{\\partial t}"},
+        {"name": "薛定谔方程", "latex": "i\\hbar\\frac{\\partial}{\\partial t}\\Psi = \\hat{H}\\Psi"},
+        {"name": "质能方程", "latex": "E = mc^2"}
+      ]
+    },
+    {
+      "id": "discrete",
+      "name": "离散数学",
+      "formulas": [
+        {"name": "排列", "latex": "P(n,k) = \\frac{n!}{(n-k)!}"},
+        {"name": "组合", "latex": "C(n,k) = \\binom{n}{k} = \\frac{n!}{k!(n-k)!}"},
+        {"name": "容斥原理", "latex": "|A \\cup B| = |A| + |B| - |A \\cap B|"},
+        {"name": "鸽巢原理", "latex": "\\lceil \\frac{n}{k} \\rceil"},
+        {"name": "欧拉公式(图)", "latex": "V - E + F = 2"}
+      ]
+    }
+  ]
+}

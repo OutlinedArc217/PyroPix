@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="brand_primary">#FF6B35</color>
+    <color name="brand_secondary">#004E89</color>
+    <color name="pdf_red">#E53935</color>
+    <color name="word_blue">#1E88E5</color>
+    <color name="txt_gray">#757575</color>
+    <color name="md_purple">#8E24AA</color>
+    <color name="latex_green">#43A047</color>
+    <color name="solve_orange">#FB8C00</color>
+    <color name="graph_blue">#1976D2</color>
+    <color name="step_cyan">#00ACC1</color>
+    <color name="template_brown">#6D4C41</color>
+    <color name="export_green">#2E7D32</color>
+    <color name="backup_bluegray">#546E7A</color>
+    <color name="realtime_yellow">#FDD835</color>
+</resources>

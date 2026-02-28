@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="camera"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_camera"
+        android:shortcutShortLabel="@string/app_name"
+        android:shortcutLongLabel="@string/app_name">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="moe.pyropix"
+            android:targetClass="moe.pyropix.ui.main.MainActivity">
+            <extra android:name="shortcut" android:value="camera" />
+        </intent>
+    </shortcut>
+    <shortcut
+        android:shortcutId="draw"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_draw"
+        android:shortcutShortLabel="@string/app_name"
+        android:shortcutLongLabel="@string/app_name">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="moe.pyropix"
+            android:targetClass="moe.pyropix.ui.main.MainActivity">
+            <extra android:name="shortcut" android:value="draw" />
+        </intent>
+    </shortcut>
+    <shortcut
+        android:shortcutId="history"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_history"
+        android:shortcutShortLabel="@string/app_name"
+        android:shortcutLongLabel="@string/app_name">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="moe.pyropix"
+            android:targetClass="moe.pyropix.ui.main.MainActivity">
+            <extra android:name="shortcut" android:value="history" />
+        </intent>
+    </shortcut>
+</shortcuts>
