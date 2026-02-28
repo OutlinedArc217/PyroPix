@@ -49,6 +49,7 @@ android {
             excludes += "/META-INF/NOTICE*"
             excludes += "/META-INF/INDEX.LIST"
             pickFirsts += "graphml.xsd"
+            pickFirsts += "xlink.xsd"
         }
     }
 }
