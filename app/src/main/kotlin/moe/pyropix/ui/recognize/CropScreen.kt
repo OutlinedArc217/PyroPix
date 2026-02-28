@@ -5,7 +5,7 @@ import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.*
@@ -60,7 +60,7 @@ fun CropScreen(navCtrl: NavHostController, uri: String) {
                 title = { Text("裁剪") },
                 navigationIcon = {
                     IconButton(onClick = { navCtrl.popBackStack() }) {
-                        Icon(Icons.Rounded.ArrowBack, "back", tint = Brand)
+                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, "back", tint = Brand)
                     }
                 },
                 actions = {

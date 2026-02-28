@@ -5,6 +5,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.ShowChart
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -110,7 +111,7 @@ fun SolverScreen(navCtrl: NavController, vm: SolverVM = hiltViewModel()) {
                         val encoded = android.net.Uri.encode(input)
                         navCtrl.navigate(Routes.GRAPH.replace("{expr}", encoded))
                     }) {
-                        Icon(Icons.Rounded.ShowChart, "图像", tint = GraphBlue)
+                        Icon(Icons.AutoMirrored.Rounded.ShowChart, "图像", tint = GraphBlue)
                         Spacer(Modifier.width(4.dp))
                         Text("函数图像")
                     }

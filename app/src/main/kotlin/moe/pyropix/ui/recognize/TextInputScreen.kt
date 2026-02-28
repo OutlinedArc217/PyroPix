@@ -2,7 +2,7 @@ package moe.pyropix.ui.recognize
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -28,7 +28,7 @@ fun TextInputScreen(navCtrl: NavHostController) {
                 title = { Text("文本输入") },
                 navigationIcon = {
                     IconButton(onClick = { navCtrl.popBackStack() }) {
-                        Icon(Icons.Rounded.ArrowBack, "back", tint = Brand)
+                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, "back", tint = Brand)
                     }
                 },
                 actions = {

@@ -31,6 +31,8 @@ class MineVM @Inject constructor(
     @ApplicationContext private val ctx: Context
 ) : ViewModel() {
 
+    private val jsonParser = Json { ignoreUnknownKeys = true }
+
     val history: StateFlow<List<FormulaEntity>> = repo.allFormulas()
         .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
@@ -69,8 +71,7 @@ class MineVM @Inject constructor(
                 ctx.assets.open("templates.json").bufferedReader().use { it.readText() }
             } catch (_: Exception) { return@launch }
             _templates.value = try {
-                Json { ignoreUnknownKeys = true }
-                    .decodeFromString<TemplateRoot>(json).categories
+                jsonParser.decodeFromString<TemplateRoot>(json).categories
             } catch (_: Exception) { emptyList() }
         }
     }

@@ -3,6 +3,9 @@ package moe.pyropix.ui.recognize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.Redo
+import androidx.compose.material.icons.automirrored.rounded.Undo
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -44,7 +47,7 @@ fun DrawScreen(navCtrl: NavHostController) {
                 title = { Text("手写识别") },
                 navigationIcon = {
                     IconButton(onClick = { navCtrl.popBackStack() }) {
-                        Icon(Icons.Rounded.ArrowBack, "back", tint = Brand)
+                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, "back", tint = Brand)
                     }
                 },
                 actions = {
@@ -65,7 +68,7 @@ fun DrawScreen(navCtrl: NavHostController) {
                                 paths = paths.dropLast(1)
                             }
                         }
-                    ) { Icon(Icons.Rounded.Undo, "undo", tint = SolveOrange) }
+                    ) { Icon(Icons.AutoMirrored.Rounded.Undo, "undo", tint = SolveOrange) }
                     IconButton(
                         onClick = {
                             if (undone.isNotEmpty()) {
@@ -73,7 +76,7 @@ fun DrawScreen(navCtrl: NavHostController) {
                                 undone = undone.dropLast(1)
                             }
                         }
-                    ) { Icon(Icons.Rounded.Redo, "redo", tint = SolveOrange) }
+                    ) { Icon(Icons.AutoMirrored.Rounded.Redo, "redo", tint = SolveOrange) }
                     IconButton(onClick = {
                         paths = emptyList()
                         undone = emptyList()

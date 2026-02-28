@@ -12,7 +12,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.PhotoLibrary
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -56,7 +56,7 @@ fun GalleryPickScreen(navCtrl: NavHostController) {
                 title = { Text("图片识别") },
                 navigationIcon = {
                     IconButton(onClick = { navCtrl.popBackStack() }) {
-                        Icon(Icons.Rounded.ArrowBack, "back", tint = Brand)
+                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, "back", tint = Brand)
                     }
                 },
                 actions = {

@@ -74,6 +74,7 @@ class MathEngine @Inject constructor() {
             val x = from + i * step
             try {
                 val cmd = expr.replace(variable, "($x)")
+                @Suppress("DEPRECATION")
                 val y = eval.eval(cmd).evalDouble()
                 if (y.isFinite()) points.add(x to y)
             } catch (_: Exception) { }
