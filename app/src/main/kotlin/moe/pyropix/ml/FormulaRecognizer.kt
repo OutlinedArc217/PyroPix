@@ -36,7 +36,7 @@ class FormulaRecognizer @Inject constructor(
     private fun greedyDecode(encHidden: Array<*>): List<Int> {
         val ids = mutableListOf(tokenDecoder.decoderStartId())
         for (step in 0 until maxLen) {
-            val decIds = ids.toLongArray()
+            val decIds = ids.map { it.toLong() }.toLongArray()
             val decTensor = OnnxTensor.createTensor(env, arrayOf(decIds))
             val encTensor = OnnxTensor.createTensor(env, encHidden)
 
@@ -78,7 +78,7 @@ class FormulaRecognizer @Inject constructor(
                 val probs = softmax(logits)
 
                 for (idx in topK) {
-                    val newScore = beam.score + Math.log(probs[idx].coerceAtLeast(1e-10).toDouble())
+                    val newScore = beam.score + Math.log(probs[idx].coerceAtLeast(1e-10f).toDouble())
                     candidates.add(Beam(beam.ids + idx, newScore))
                 }
                 decTensor.close()
