@@ -1,15 +1,15 @@
-name: Update Gradle Wrapper
+name: Generate Gradle Wrapper
 
 on:
   workflow_dispatch:
     inputs:
       gradle_version:
-        description: 'Gradle version to update to'
+        description: 'Gradle version'
         required: false
         default: '8.11.1'
 
 jobs:
-  update-wrapper:
+  generate-wrapper:
     runs-on: ubuntu-latest
 
     permissions:
@@ -25,15 +25,15 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Update Gradle Wrapper
-        run: |
-          ./gradlew wrapper --gradle-version ${{ github.event.inputs.gradle_version || '8.11.1' }}
-          ./gradlew wrapper --gradle-version ${{ github.event.inputs.gradle_version || '8.11.1' }}
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: ${{ github.event.inputs.gradle_version || '8.11.1' }}
 
-      - name: Verify Gradle Wrapper
-        run: ./gradlew --version
+      - name: Generate Gradle Wrapper
+        run: gradle wrapper --gradle-version ${{ github.event.inputs.gradle_version || '8.11.1' }}
 
-      - name: Commit and push changes
+      - name: Commit and push
         run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
@@ -41,5 +41,5 @@ jobs:
                   gradle/wrapper/gradle-wrapper.jar \
                   gradlew \
                   gradlew.bat
-          git diff --staged --quiet || git commit -m "chore: update Gradle Wrapper to ${{ github.event.inputs.gradle_version || '8.11.1' }}"
+          git diff --staged --quiet || git commit -m "chore: add Gradle Wrapper ${{ github.event.inputs.gradle_version || '8.11.1' }}"
           git push
