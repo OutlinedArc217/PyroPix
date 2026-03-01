@@ -6,6 +6,7 @@ import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import moe.pyropix.ui.recognize.RecognizeScreen
 import moe.pyropix.ui.doc.DocListScreen
