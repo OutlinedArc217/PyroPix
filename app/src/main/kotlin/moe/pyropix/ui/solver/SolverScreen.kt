@@ -32,11 +32,9 @@ fun SolverScreen(navCtrl: NavController, vm: SolverVM = hiltViewModel()) {
         topBar = {
             TopAppBar(
                 title = { Text("求解器") },
-                navigationIcon = {
-                    IconButton(onClick = { navCtrl.popBackStack() }) {
-                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, "返回", tint = Brand)
-                    }
-                }
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = SurfaceLight
+                )
             )
         }
     ) { pad ->
@@ -46,27 +44,50 @@ fun SolverScreen(navCtrl: NavController, vm: SolverVM = hiltViewModel()) {
                 .padding(pad)
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            OutlinedTextField(
-                value = input,
-                onValueChange = { vm.setInput(it) },
+            Card(
                 modifier = Modifier.fillMaxWidth(),
-                label = { Text("LaTeX 公式") },
-                placeholder = { Text("输入公式，如 x^2 + 2x + 1") },
-                trailingIcon = {
-                    IconButton(onClick = { showPad = !showPad }) {
-                        Icon(Icons.Rounded.Keyboard, "符号", tint = StepCyan)
-                    }
+                shape = RoundedCornerShape(20.dp),
+                elevation = CardDefaults.cardElevation(4.dp)
+            ) {
+                Column(Modifier.padding(16.dp)) {
+                    OutlinedTextField(
+                        value = input,
+                        onValueChange = { vm.setInput(it) },
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text("LaTeX 公式") },
+                        placeholder = { Text("输入公式，如 x^2 + 2x + 1") },
+                        shape = RoundedCornerShape(12.dp),
+                        trailingIcon = {
+                            IconButton(onClick = { showPad = !showPad }) {
+                                Icon(Icons.Rounded.Keyboard, "符号", tint = StepCyan)
+                            }
+                        }
+                    )
                 }
-            )
-
-            if (showPad) {
-                SymbolPad(onInsert = { vm.setInput(input + it) })
             }
 
-            Text("运算", style = MaterialTheme.typography.titleMedium)
-            OpButtons { vm.solve(it) }
+            if (showPad) {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(20.dp),
+                    elevation = CardDefaults.cardElevation(4.dp)
+                ) {
+                    SymbolPad(onInsert = { vm.setInput(input + it) })
+                }
+            }
+
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(20.dp),
+                elevation = CardDefaults.cardElevation(4.dp)
+            ) {
+                Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Text("运算", style = MaterialTheme.typography.titleMedium)
+                    OpButtons { vm.solve(it) }
+                }
+            }
 
             if (loading) {
                 Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
@@ -77,15 +98,15 @@ fun SolverScreen(navCtrl: NavController, vm: SolverVM = hiltViewModel()) {
             result?.let { res ->
                 Card(
                     modifier = Modifier.fillMaxWidth(),
-                    elevation = CardDefaults.cardElevation(2.dp)
+                    shape = RoundedCornerShape(20.dp),
+                    elevation = CardDefaults.cardElevation(8.dp)
                 ) {
-                    Column(Modifier.padding(12.dp)) {
+                    Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                         Text(
                             if (res.success) "结果" else "错误",
                             style = MaterialTheme.typography.titleMedium,
                             color = if (res.success) LatexGreen else PdfRed
                         )
-                        Spacer(Modifier.height(8.dp))
                         if (res.success) {
                             LatexView(
                                 latex = res.latex,
@@ -99,21 +120,35 @@ fun SolverScreen(navCtrl: NavController, vm: SolverVM = hiltViewModel()) {
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    OutlinedButton(onClick = { navCtrl.navigate(Routes.STEP_LIST) }) {
+                    FilledTonalButton(
+                        onClick = { navCtrl.navigate(Routes.STEP_LIST) },
+                        modifier = Modifier.weight(1f).height(56.dp),
+                        shape = RoundedCornerShape(16.dp),
+                        colors = ButtonDefaults.filledTonalButtonColors(
+                            containerColor = StepCyan.copy(alpha = 0.15f)
+                        )
+                    ) {
                         Icon(Icons.Rounded.FormatListNumbered, "步骤", tint = StepCyan)
-                        Spacer(Modifier.width(4.dp))
-                        Text("查看步骤")
+                        Spacer(Modifier.width(8.dp))
+                        Text("查看步骤", color = StepCyan)
                     }
-                    OutlinedButton(onClick = {
-                        vm.plotGraph(input)
-                        val encoded = android.net.Uri.encode(input)
-                        navCtrl.navigate(Routes.GRAPH.replace("{expr}", encoded))
-                    }) {
+                    FilledTonalButton(
+                        onClick = {
+                            vm.plotGraph(input)
+                            val encoded = android.net.Uri.encode(input)
+                            navCtrl.navigate(Routes.GRAPH.replace("{expr}", encoded))
+                        },
+                        modifier = Modifier.weight(1f).height(56.dp),
+                        shape = RoundedCornerShape(16.dp),
+                        colors = ButtonDefaults.filledTonalButtonColors(
+                            containerColor = GraphBlue.copy(alpha = 0.15f)
+                        )
+                    ) {
                         Icon(Icons.AutoMirrored.Rounded.ShowChart, "图像", tint = GraphBlue)
-                        Spacer(Modifier.width(4.dp))
-                        Text("函数图像")
+                        Spacer(Modifier.width(8.dp))
+                        Text("函数图像", color = GraphBlue)
                     }
                 }
             }
@@ -142,6 +177,7 @@ private fun OpButtons(onSolve: (SolveType) -> Unit) {
         ops.forEach { (label, type, color) ->
             FilledTonalButton(
                 onClick = { onSolve(type) },
+                shape = RoundedCornerShape(12.dp),
                 colors = ButtonDefaults.filledTonalButtonColors(
                     containerColor = color.copy(alpha = 0.15f)
                 )

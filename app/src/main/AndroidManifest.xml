@@ -13,7 +13,8 @@
     <application
         android:name=".App"
         android:allowBackup="true"
-        android:icon="@drawable/ic_pyropix_logo"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher"
         android:label="PyroPix"
         android:supportsRtl="true"
         android:theme="@style/Theme.PyroPix">

@@ -38,7 +38,10 @@ fun SettingsScreen(navCtrl: NavController, vm: SettingsVM = hiltViewModel()) {
                     IconButton(onClick = { navCtrl.popBackStack() }) {
                         Icon(Icons.AutoMirrored.Rounded.ArrowBack, "返回", tint = Brand)
                     }
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = SurfaceLight
+                )
             )
         }
     ) { pad ->
@@ -60,24 +63,6 @@ fun SettingsScreen(navCtrl: NavController, vm: SettingsVM = hiltViewModel()) {
             SliderItem("字体大小", fontSize, 10f, 32f) { vm.setFontSize(it) }
             SwitchItem("卡片布局", cardLayout == "grid") {
                 vm.setCardLayout(if (it) "grid" else "list")
-            }
-
-            Spacer(Modifier.height(8.dp))
-            SectionHeader("存储", Icons.Rounded.Storage, BackupBlueGray)
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                OutlinedButton(onClick = { vm.backup() }, modifier = Modifier.weight(1f)) {
-                    Icon(Icons.Rounded.Backup, "备份", tint = ExportGreen)
-                    Spacer(Modifier.width(4.dp))
-                    Text("备份")
-                }
-                OutlinedButton(onClick = { vm.restore() }, modifier = Modifier.weight(1f)) {
-                    Icon(Icons.Rounded.Restore, "恢复", tint = SolveOrange)
-                    Spacer(Modifier.width(4.dp))
-                    Text("恢复")
-                }
             }
 
             Spacer(Modifier.height(8.dp))

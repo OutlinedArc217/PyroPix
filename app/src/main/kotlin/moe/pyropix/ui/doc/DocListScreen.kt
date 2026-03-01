@@ -3,18 +3,23 @@ package moe.pyropix.ui.doc
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.core.*
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -62,11 +67,19 @@ fun DocListScreen(navCtrl: NavController, vm: DocVM = hiltViewModel()) {
     }
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("文档") }) },
+        topBar = {
+            TopAppBar(
+                title = { Text("文档") },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = SurfaceLight
+                )
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { launcher.launch(arrayOf("*/*")) },
-                containerColor = Brand
+                containerColor = Brand,
+                shape = RoundedCornerShape(16.dp)
             ) {
                 Icon(Icons.Rounded.Add, "打开文档", tint = SurfaceLight)
             }
@@ -80,7 +93,7 @@ fun DocListScreen(navCtrl: NavController, vm: DocVM = hiltViewModel()) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize().padding(pad),
                 contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(docs, key = { it.uri }) { doc ->
                     DocRow(doc) {
@@ -110,21 +123,71 @@ private fun DocRow(doc: DocItem, onClick: () -> Unit) {
         DocType.MARKDOWN -> MdPurple
         DocType.TXT -> TxtGray
     }
+    val gradient = when (doc.type) {
+        DocType.PDF -> listOf(PdfRed, PdfRed.copy(alpha = 0.6f))
+        DocType.WORD -> listOf(WordBlue, WordBlue.copy(alpha = 0.6f))
+        DocType.MARKDOWN -> listOf(MdPurple, MdPurple.copy(alpha = 0.6f))
+        DocType.TXT -> listOf(TxtGray, TxtGray.copy(alpha = 0.6f))
+    }
+
+    var pressed by remember { mutableStateOf(false) }
+    val scale by animateFloatAsState(
+        targetValue = if (pressed) 0.96f else 1f,
+        animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy)
+    )
 
     Card(
-        modifier = Modifier.fillMaxWidth().clickable(onClick = onClick),
-        elevation = CardDefaults.cardElevation(2.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .scale(scale)
+            .clickable(
+                onClick = onClick,
+                interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() },
+                indication = null
+            ),
+        shape = RoundedCornerShape(20.dp),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 4.dp,
+            pressedElevation = 8.dp
+        )
     ) {
         Row(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier
+                .background(Brush.horizontalGradient(gradient.map { it.copy(alpha = 0.08f) }))
+                .padding(20.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(painterResource(iconRes), doc.type.name, tint = tint, modifier = Modifier.size(40.dp))
-            Spacer(Modifier.width(12.dp))
+            Box(
+                modifier = Modifier
+                    .size(56.dp)
+                    .clip(CircleShape)
+                    .background(Brush.verticalGradient(gradient.map { it.copy(alpha = 0.15f) })),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    painterResource(iconRes),
+                    doc.type.name,
+                    tint = tint,
+                    modifier = Modifier.size(32.dp)
+                )
+            }
+            Spacer(Modifier.width(16.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(doc.name, style = MaterialTheme.typography.titleMedium)
-                Text(formatSize(doc.size), style = MaterialTheme.typography.bodySmall, color = TxtGray)
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    formatSize(doc.size),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = TxtGray
+                )
             }
+        }
+    }
+
+    LaunchedEffect(pressed) {
+        if (pressed) {
+            kotlinx.coroutines.delay(100)
+            pressed = false
         }
     }
 }

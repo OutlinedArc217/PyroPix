@@ -23,32 +23,32 @@ class FormulaRecognizer @Inject constructor(
 
         val encResult = modelMgr.runEncoder(inputTensor)
             ?: return@withContext ""
-        val encHidden = encResult.first().value as Array<*>
+        val encOutput = encResult.first().value as OnnxTensor
+        val encHidden = encOutput.floatBuffer.array()
 
-        val tokenIds = if (beamWidth <= 1) greedyDecode(encHidden) else beamDecode(encHidden, beamWidth)
+        val tokenIds = if (beamWidth <= 1) greedyDecode(encOutput) else beamDecode(encOutput, beamWidth)
 
         inputTensor.close()
+        encOutput.close()
         encResult.close()
 
         tokenDecoder.decode(tokenIds)
     }
 
-    private fun greedyDecode(encHidden: Array<*>): List<Int> {
+    private fun greedyDecode(encOutput: OnnxTensor): List<Int> {
         val ids = mutableListOf(tokenDecoder.decoderStartId())
         for (step in 0 until maxLen) {
             val decIds = ids.map { it.toLong() }.toLongArray()
             val decTensor = OnnxTensor.createTensor(env, arrayOf(decIds))
-            val encTensor = OnnxTensor.createTensor(env, encHidden)
 
             val decResult = modelMgr.runDecoder(
-                mapOf("input_ids" to decTensor, "encoder_hidden_states" to encTensor)
+                mapOf("input_ids" to decTensor, "encoder_hidden_states" to encOutput)
             )
-            if (decResult == null) { decTensor.close(); encTensor.close(); break }
+            if (decResult == null) { decTensor.close(); break }
 
             val logits = decResult.first().value
             val nextId = argmax(logits)
             decTensor.close()
-            encTensor.close()
             decResult.close()
 
             if (nextId == tokenDecoder.eosId()) break
@@ -57,7 +57,7 @@ class FormulaRecognizer @Inject constructor(
         return ids
     }
 
-    private fun beamDecode(encHidden: Array<*>, beamWidth: Int): List<Int> {
+    private fun beamDecode(encOutput: OnnxTensor, beamWidth: Int): List<Int> {
         data class Beam(val ids: List<Int>, val score: Double)
 
         var beams = listOf(Beam(listOf(tokenDecoder.decoderStartId()), 0.0))
@@ -67,10 +67,9 @@ class FormulaRecognizer @Inject constructor(
             for (beam in beams) {
                 val decIds = beam.ids.map { it.toLong() }.toLongArray()
                 val decTensor = OnnxTensor.createTensor(env, arrayOf(decIds))
-                val encTensor = OnnxTensor.createTensor(env, encHidden)
 
                 val decResult = modelMgr.runDecoder(
-                    mapOf("input_ids" to decTensor, "encoder_hidden_states" to encTensor)
+                    mapOf("input_ids" to decTensor, "encoder_hidden_states" to encOutput)
                 ) ?: continue
 
                 val logits = decResult.first().value
@@ -82,7 +81,6 @@ class FormulaRecognizer @Inject constructor(
                     candidates.add(Beam(beam.ids + idx, newScore))
                 }
                 decTensor.close()
-                encTensor.close()
                 decResult.close()
             }
 

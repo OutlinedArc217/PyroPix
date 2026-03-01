@@ -1,12 +1,19 @@
 package moe.pyropix.ui.main
 
+import androidx.compose.animation.core.*
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import moe.pyropix.ui.recognize.RecognizeScreen
 import moe.pyropix.ui.doc.DocListScreen
@@ -29,14 +36,44 @@ fun MainScreen(navCtrl: NavHostController) {
 
     Scaffold(
         bottomBar = {
-            NavigationBar {
-                tabs.forEachIndexed { i, t ->
-                    NavigationBarItem(
-                        selected = tab == i,
-                        onClick = { tab = i },
-                        icon = { Icon(t.icon, t.label, tint = if (tab == i) t.color else TxtGray) },
-                        label = { Text(t.label) }
-                    )
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .clip(RoundedCornerShape(24.dp)),
+                shadowElevation = 8.dp,
+                tonalElevation = 2.dp
+            ) {
+                NavigationBar(
+                    modifier = Modifier.height(72.dp),
+                    containerColor = SurfaceLight
+                ) {
+                    tabs.forEachIndexed { i, t ->
+                        val selected = tab == i
+                        val scale by animateFloatAsState(
+                            targetValue = if (selected) 1.1f else 1f,
+                            animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy)
+                        )
+
+                        NavigationBarItem(
+                            selected = selected,
+                            onClick = { tab = i },
+                            icon = {
+                                Icon(
+                                    t.icon,
+                                    t.label,
+                                    tint = if (selected) t.color else TxtGray,
+                                    modifier = Modifier.scale(scale)
+                                )
+                            },
+                            label = {
+                                Text(
+                                    t.label,
+                                    color = if (selected) t.color else TxtGray
+                                )
+                            }
+                        )
+                    }
                 }
             }
         }

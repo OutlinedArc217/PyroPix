@@ -6,11 +6,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
+import kotlin.math.abs
 
 @Composable
 fun CropOverlay(
@@ -19,7 +21,7 @@ fun CropOverlay(
     modifier: Modifier = Modifier
 ) {
     var dragCorner by remember { mutableIntStateOf(-1) }
-    val handleRadius = 20f
+    val handleRadius = 24f
 
     Canvas(
         modifier = modifier.pointerInput(Unit) {
@@ -32,7 +34,7 @@ fun CropOverlay(
                         Offset(cropRect.left, cropRect.bottom)
                     )
                     dragCorner = corners.indexOfFirst {
-                        (pos - it).getDistance() < handleRadius * 2
+                        abs(pos.x - it.x) < handleRadius * 2 && abs(pos.y - it.y) < handleRadius * 2
                     }
                     if (dragCorner == -1 && cropRect.contains(pos)) dragCorner = 4
                 },
@@ -48,25 +50,31 @@ fun CropOverlay(
                         4 -> r.translate(dx, dy)
                         else -> r
                     }
-                    if (newRect.width > 50 && newRect.height > 50) onCropChange(newRect)
+                    if (newRect.width > 100 && newRect.height > 100) onCropChange(newRect)
                 },
                 onDragEnd = { dragCorner = -1 }
             )
         }
     ) {
-        // dim outside
-        drawRect(Color.Black.copy(alpha = 0.5f))
-        drawRect(Color.Transparent, topLeft = Offset(cropRect.left, cropRect.top), size = cropRect.size, blendMode = androidx.compose.ui.graphics.BlendMode.Clear)
+        // Dim outside crop area
+        val fullPath = Path().apply {
+            addRect(Rect(0f, 0f, size.width, size.height))
+        }
+        val cropPath = Path().apply {
+            addRect(cropRect)
+        }
+        val dimPath = Path.combine(androidx.compose.ui.graphics.PathOperation.Difference, fullPath, cropPath)
+        drawPath(dimPath, Color.Black.copy(alpha = 0.6f))
 
-        // border
+        // Border
         drawRect(
             Color.White,
             topLeft = Offset(cropRect.left, cropRect.top),
-            size = cropRect.size,
-            style = Stroke(width = 2f, pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f)))
+            size = Size(cropRect.width, cropRect.height),
+            style = Stroke(width = 3f, pathEffect = PathEffect.dashPathEffect(floatArrayOf(15f, 10f)))
         )
 
-        // corner handles
+        // Corner handles
         val corners = listOf(
             Offset(cropRect.left, cropRect.top),
             Offset(cropRect.right, cropRect.top),
@@ -75,7 +83,29 @@ fun CropOverlay(
         )
         corners.forEach { c ->
             drawCircle(Color.White, radius = handleRadius, center = c)
-            drawCircle(moe.pyropix.ui.theme.Brand, radius = handleRadius - 4f, center = c)
+            drawCircle(moe.pyropix.ui.theme.Brand, radius = handleRadius - 6f, center = c)
+        }
+
+        // Grid lines
+        val third = cropRect.width / 3
+        for (i in 1..2) {
+            val x = cropRect.left + third * i
+            drawLine(
+                Color.White.copy(alpha = 0.5f),
+                Offset(x, cropRect.top),
+                Offset(x, cropRect.bottom),
+                strokeWidth = 1f
+            )
+        }
+        val thirdH = cropRect.height / 3
+        for (i in 1..2) {
+            val y = cropRect.top + thirdH * i
+            drawLine(
+                Color.White.copy(alpha = 0.5f),
+                Offset(cropRect.left, y),
+                Offset(cropRect.right, y),
+                strokeWidth = 1f
+            )
         }
     }
 }

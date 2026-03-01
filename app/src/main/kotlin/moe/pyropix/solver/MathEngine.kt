@@ -11,10 +11,18 @@ import javax.inject.Singleton
 @Singleton
 class MathEngine @Inject constructor() {
 
-    private val eval = ExprEvaluator(false, 100)
+    private val eval by lazy { ExprEvaluator(false, 100) }
+    private var initialized = false
 
-    init {
-        F.initSymbols()
+    private fun ensureInit() {
+        if (!initialized) {
+            try {
+                F.initSymbols()
+                initialized = true
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     suspend fun simplify(latex: String): SolveResult = solve("Simplify(${LatexTranslator.toSymja(latex)})")
@@ -46,6 +54,7 @@ class MathEngine @Inject constructor() {
     suspend fun evaluate(cmd: String): SolveResult = solve(cmd)
 
     private suspend fun solve(cmd: String): SolveResult = withContext(Dispatchers.Default) {
+        ensureInit()
         try {
             val result = eval.eval(cmd)
             val steps = collectSteps(result)
@@ -68,6 +77,7 @@ class MathEngine @Inject constructor() {
     }
 
     fun evalPoints(expr: String, variable: String, from: Double, to: Double, n: Int = 200): List<Pair<Double, Double>> {
+        ensureInit()
         val points = mutableListOf<Pair<Double, Double>>()
         val step = (to - from) / n
         for (i in 0..n) {

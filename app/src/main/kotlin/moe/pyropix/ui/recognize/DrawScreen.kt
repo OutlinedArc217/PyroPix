@@ -36,7 +36,7 @@ fun DrawScreen(navCtrl: NavHostController) {
     var curPoints by remember { mutableStateOf<List<Offset>>(emptyList()) }
     var isEraser by remember { mutableStateOf(false) }
     var penLevel by remember { mutableIntStateOf(1) }
-    val penWidth = when (penLevel) { 0 -> 2f; 1 -> 5f; else -> 10f }
+    val penWidth = when (penLevel) { 0 -> 4f; 1 -> 8f; else -> 16f }
     var recognized by remember { mutableStateOf(false) }
     var canvasW by remember { mutableIntStateOf(0) }
     var canvasH by remember { mutableIntStateOf(0) }

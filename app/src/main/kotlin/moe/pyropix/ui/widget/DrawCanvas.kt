@@ -10,7 +10,18 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import android.graphics.Bitmap
 
-data class DrawPath(val points: List<Offset>, val color: Color, val width: Float, val isEraser: Boolean = false)
+data class DrawPath(val points: List<Offset>, val color: Color, val width: Float, val isEraser: Boolean = false) {
+    val path: Path by lazy {
+        Path().apply {
+            if (points.size >= 2) {
+                moveTo(points[0].x, points[0].y)
+                for (i in 1 until points.size) {
+                    lineTo(points[i].x, points[i].y)
+                }
+            }
+        }
+    }
+}
 
 @Composable
 fun DrawCanvas(
@@ -38,14 +49,8 @@ fun DrawCanvas(
     ) {
         for (p in paths) {
             if (p.points.size < 2) continue
-            val path = Path().apply {
-                moveTo(p.points[0].x, p.points[0].y)
-                for (i in 1 until p.points.size) {
-                    lineTo(p.points[i].x, p.points[i].y)
-                }
-            }
             drawPath(
-                path,
+                p.path,
                 color = if (p.isEraser) Color.White else p.color,
                 style = Stroke(width = p.width, cap = StrokeCap.Round, join = StrokeJoin.Round)
             )
@@ -61,7 +66,7 @@ fun DrawCanvas(
             drawPath(
                 path,
                 color = if (isEraser) Color.White else penColor,
-                style = Stroke(width = penWidth, cap = StrokeCap.Round, join = StrokeJoin.Round)
+                style = Stroke(width = if (isEraser) penWidth * 3 else penWidth, cap = StrokeCap.Round, join = StrokeJoin.Round)
             )
         }
     }
