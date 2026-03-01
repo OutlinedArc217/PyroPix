@@ -17,22 +17,37 @@ class FormulaRecognizer @Inject constructor(
     private val maxLen = 512
 
     suspend fun recognize(bmp: Bitmap, beamWidth: Int = 1): String = withContext(Dispatchers.Default) {
-        val buf = ImgPreprocessor.preprocess(bmp)
-        val sz = ImgPreprocessor.imgSize().toLong()
-        val inputTensor = OnnxTensor.createTensor(env, buf, longArrayOf(1, 3, sz, sz))
+        try {
+            // Ensure model is loaded before inference
+            modelMgr.ensureLoaded()
 
-        val encResult = modelMgr.runEncoder(inputTensor)
-            ?: return@withContext ""
-        val encOutput = encResult.first().value as OnnxTensor
-        val encHidden = encOutput.floatBuffer.array()
+            val buf = ImgPreprocessor.preprocess(bmp)
+            val sz = ImgPreprocessor.imgSize().toLong()
+            val inputTensor = OnnxTensor.createTensor(env, buf, longArrayOf(1, 3, sz, sz))
 
-        val tokenIds = if (beamWidth <= 1) greedyDecode(encOutput) else beamDecode(encOutput, beamWidth)
+            val encResult = modelMgr.runEncoder(inputTensor)
+            if (encResult == null) {
+                inputTensor.close()
+                android.util.Log.e("FormulaRecognizer", "Encoder returned null")
+                return@withContext ""
+            }
 
-        inputTensor.close()
-        encOutput.close()
-        encResult.close()
+            val encOutput = encResult.first().value as OnnxTensor
+            val encHidden = encOutput.floatBuffer.array()
 
-        tokenDecoder.decode(tokenIds)
+            val tokenIds = if (beamWidth <= 1) greedyDecode(encOutput) else beamDecode(encOutput, beamWidth)
+
+            inputTensor.close()
+            encOutput.close()
+            encResult.close()
+
+            val result = tokenDecoder.decode(tokenIds)
+            android.util.Log.d("FormulaRecognizer", "Recognition result: $result")
+            result
+        } catch (e: Exception) {
+            android.util.Log.e("FormulaRecognizer", "Recognition failed", e)
+            ""
+        }
     }
 
     private fun greedyDecode(encOutput: OnnxTensor): List<Int> {

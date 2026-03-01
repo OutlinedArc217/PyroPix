@@ -29,6 +29,7 @@ class ModelManager @Inject constructor(
 
     suspend fun ensureLoaded(threadCount: Int = 4, useGpu: Boolean = false) = mutex.withLock {
         if (loaded) return@withLock
+        android.util.Log.d("ModelManager", "Loading models...")
         withContext(Dispatchers.IO) { copyModels() }
         val opts = OrtSession.SessionOptions().apply {
             setIntraOpNumThreads(threadCount)
@@ -38,10 +39,21 @@ class ModelManager @Inject constructor(
         }
         val encFile = File(modelDir, "encoder_model.onnx")
         val decFile = File(modelDir, "decoder_model.onnx")
-        if (encFile.exists()) encoderSession = env.createSession(encFile.absolutePath, opts)
-        if (decFile.exists()) decoderSession = env.createSession(decFile.absolutePath, opts)
+
+        android.util.Log.d("ModelManager", "Encoder exists: ${encFile.exists()}, size: ${encFile.length()}")
+        android.util.Log.d("ModelManager", "Decoder exists: ${decFile.exists()}, size: ${decFile.length()}")
+
+        if (encFile.exists()) {
+            encoderSession = env.createSession(encFile.absolutePath, opts)
+            android.util.Log.d("ModelManager", "Encoder loaded successfully")
+        }
+        if (decFile.exists()) {
+            decoderSession = env.createSession(decFile.absolutePath, opts)
+            android.util.Log.d("ModelManager", "Decoder loaded successfully")
+        }
         tokenDecoder.load()
         loaded = true
+        android.util.Log.d("ModelManager", "All models loaded")
     }
 
     private fun copyModels() {

@@ -1,4 +1,4 @@
-package moe.pyropix.ui.doc
+package moe.pyropix.ui.recognize
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -11,11 +11,11 @@ import androidx.navigation.NavHostController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DocEditorScreen(navCtrl: NavHostController, uri: String = "") {
+fun GalleryScreen(navCtrl: NavHostController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("DocEditor") },
+                title = { Text("Gallery") },
                 navigationIcon = {
                     IconButton(onClick = { navCtrl.popBackStack() }) {
                         Icon(Icons.AutoMirrored.Rounded.ArrowBack, "返回")
